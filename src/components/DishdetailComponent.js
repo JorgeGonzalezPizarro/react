@@ -1,24 +1,24 @@
 import React, {Component} from 'react';
 import {
-    Card, CardImg, CardText,
+    Card, CardImg, CardText,CardBody,
     CardTitle
 } from 'reactstrap';
 
 export default class DishDetail extends Component {
 
-
-
     renderDishDetail = (dish) => {
-        if (dish !== null) {
+        if (dish != null) {
             return (
-
                 <div>
+                    <Card>
                     <CardImg width="100%" src={dish.image} alt={dish.name}/>
-                    <CardTitle>{dish.title} </CardTitle>
+                        <CardBody>
+
+                        <CardTitle>{dish.name} </CardTitle>
                     <CardText>{dish.description}</CardText>
-
+                        </CardBody>
+                    </Card>
                 </div>
-
             );
 
         }
@@ -26,18 +26,18 @@ export default class DishDetail extends Component {
     };
 
     renderComments = (comments) => {
-        if (comments === null) {
+        if (comments == null) {
             return <div/>
         }
         return (
-            <div className="col-12 col-sm-12 col-md-5 m-1">
+            <div>
                 <ul className="list-unstyled">
                     <h4>Comments</h4>
                     {comments.map((comment, key) => {
                         return (
                             <li key={key}>
                                 <p>{comment.comment}</p>
-                                <p>{comment.author}</p>
+                                <p>--{comment.author}</p>
                             </li>
 
                         );
@@ -50,22 +50,23 @@ export default class DishDetail extends Component {
 
 
     render() {
-        console.log(this.props);
-
-        return (
-            <div className="col-12 col-sm-12 col-md-5 m-1">
-
-            <div className="row">
-                <div className="col-12 col-sm-12 col-md-5 m-1">
-                    <Card>
+        if (this.props.dish == null) {
+            return <div></div>
+        }
+            return (
+                <div className="container">
+                    <div className="row">
+                    <div className="col-xs-12 col-sm-12 col-12 col-md-5 m-1">
                         {this.renderDishDetail(this.props.dish)}
-                    </Card>
-                </div>
-                {this.renderComments(this.props.dish.comments)}
-            </div>
+                    </div>
+                        <div className="col-xs-12 col-sm-12 col-12 col-md-5 m-1">
 
-            </div>
-        );
+                        {this.renderComments(this.props.dish.comments)}
+                        </div>
+                    </div>
+                </div>
+            );
+
     }
 }
 
