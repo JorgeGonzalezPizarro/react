@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import {
-  Navbar, NavbarBrand
-} from 'reactstrap';
-import { DISHES } from '../shared/dishes';
 
-import DishDetail from  './Functional components/DishdetailComponent'
+import { DISHES } from '../shared/dishes';
+import  Header  from './Header/Header';
+
+import DishDetail from './Functional components/DishDetail/DishdetailComponent'
 import Menu from "./Functional components/MenuComponent";
+import Footer from "./Footer/Footer";
+import {Switch , Route , Redirect} from "react-router-dom";
+import Home from "./Home";
+import DishDetailRouter from "./Functional components/DishDetail/DishDetailRouter";
 
 export default class Main extends Component {
 
@@ -18,9 +21,7 @@ export default class Main extends Component {
         }
     }
 
-
     onDishSelect = (dish) =>  {
-        console.log(dish);
         return this.setState({ selectedDish: dish});
     };
 
@@ -30,14 +31,19 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-                <Navbar dark color="primary">
-                <div className="container">
-                    <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
-                </div>
-                </Navbar>
+                <Header/>
 
-                <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-                <DishDetail dish={this.state.dishes.filter((selectedDish) => selectedDish === this.state.selectedDish)[0] } />
+                <Switch>
+                    <Route exact path={["/","/home"]} component = {Home}/>
+                    <Route exact path={"/menu"} component = { () =>{
+                    return <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
+                    }} />
+                    {/*<Route exact path={"/dish/:id"} component = { () =>  <DishDetailRouter  /> }/>*/}
+                    <Redirect to={"/home"} />
+                </Switch>
+
+                <Footer/>
+
             </div>
         );
     }
