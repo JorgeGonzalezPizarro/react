@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
-    Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle, Navbar, NavbarBrand
+  Navbar, NavbarBrand
 } from 'reactstrap';
 import { DISHES } from '../shared/dishes';
 
-import DishDetail from './DishdetailComponent'
-import Menu from "./MenuComponent";
+import DishDetail from  './Functional components/DishdetailComponent'
+import Menu from "./Functional components/MenuComponent";
 
 export default class Main extends Component {
 
@@ -37,10 +36,9 @@ export default class Main extends Component {
                 </div>
                 </Navbar>
 
-                <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)}/>
+                <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
                 <DishDetail dish={this.state.dishes.filter((selectedDish) => selectedDish === this.state.selectedDish)[0] } />
             </div>
-
         );
     }
 }
