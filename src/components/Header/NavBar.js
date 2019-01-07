@@ -33,7 +33,7 @@ const NavBarMenu = (props) =>   {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/contact">
+                            <NavLink className="nav-link" to="/contactus">
                                 <span><FontAwesomeIcon icon={faAddressCard}/>Contact</span>
                             </NavLink>
                         </NavItem>
