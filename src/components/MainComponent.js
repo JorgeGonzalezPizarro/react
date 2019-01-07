@@ -12,6 +12,7 @@ import {Switch , Route , Redirect} from "react-router-dom";
 import Home from "./Home/Home";
 import DishDetailRouter from "./Functional components/DishDetail/DishDetailRouter";
 import Contact from "./Pages/Contact";
+import About from "./Pages/AboutUs";
 
 export default class Main extends Component {
 
@@ -50,12 +51,12 @@ export default class Main extends Component {
                            promotion = {this.state.promotions.filter((promotionFeatured) => promotionFeatured.featured)[0]}
                            leaders = { this.state.promotions.filter((leadersFeatured) => leadersFeatured.featured)[0]
                     }/>
-                    <Route exact path={"/menu"} component = { () =>{
-                    return <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-                    }} />
+                    <Route exact path={"/menu/:id"} component = { DishDetailRouter}/>
+
+                    <Route exact path={"/menu"} component = { () =><Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />} />
+                    <Route exact path={"/aboutUs"} component = { () =><About leaders={this.state.leaders} onClick={(dishId) => this.onDishSelect(dishId)} />} />
                     <Route exact path='/contactus' component={Contact} />} />
 
-                    {/*<Route exact path={"/dish/:id"} component = { () =>  <DishDetailRouter  /> }/>*/}
                     <Redirect to={"/home"} />
                 </Switch>
 
