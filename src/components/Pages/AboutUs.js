@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {LeaderRouter} from "../Functional components/Leaders/LeaderRouter";
+import LeaderComponent from "../Functional components/Leaders/LeaderRouter";
 
 function About(props) {
 
@@ -66,13 +67,34 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    {console.log(props)}
-
-                    <LeaderRouter leaders={props.leaders} />
+                    <RenderLeader leaders={props.leaders} />
                 </div>
             </div>
         </div>
     );
 }
+const RenderLeader = ({leaders}) => {
+    return leaders.map((leader) => {
+    if (leader != null) {
+        return (
+                <div className="container">
+                    <div className="row">
+                        <Media tag="li">
+                            <Media left middle>
+                                <Media object src={leader.image} alt={leader.name}/>
+                            </Media>
+                            <Media body className="mb-1">
+                                <Media heading>{leader.name}</Media>
+                                <p>{leader.designation}</p>
+                                <p>{leader.description}}</p>
+                            </Media>
+                        </Media>
+                    </div>
+                </div>
+        );
 
+    }
+    return <div/>
+});
+}
 export default About;

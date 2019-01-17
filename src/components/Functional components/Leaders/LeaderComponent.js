@@ -1,18 +1,13 @@
 import React from 'react';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, BreadcrumbItem, Breadcrumb
+    CardTitle, BreadcrumbItem, Breadcrumb, Media
 } from 'reactstrap';
 
 const LeaderDetail = ({leader}) => {
 
     return (
-
-        <div className="container">
-            <div className="row">
-                <RenderLeader leader={leader}/>
-            </div>
-        </div>
+            <RenderLeader leader={leader}/>
     );
 
 };
@@ -20,16 +15,20 @@ const LeaderDetail = ({leader}) => {
 const RenderLeader = ({leader}) => {
     if (leader != null) {
         return (
-            <div>
-                <Card>
-                    <CardImg width="30px" src={leader.image} alt={leader.name}/>
-                    <CardBody>
-
-                        <CardTitle>{leader.name} </CardTitle>
-                        <CardText>{leader.description}</CardText>
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="container">
+                    <div className="row">
+                        <Media tag="li">
+                            <Media left middle>
+                                <Media object src={leader.image} alt={leader.name} />
+                            </Media>
+                            <Media body className="m-3">
+                                <Media heading>{leader.name}</Media>
+                                <p>{leader.designation}</p>
+                                <p>{leader.description}}</p>
+                            </Media>
+                        </Media>
+                    </div>
+                    </div>
         );
 
     }
