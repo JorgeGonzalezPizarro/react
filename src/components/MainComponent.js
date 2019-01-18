@@ -10,14 +10,19 @@ import DishDetailRouter from "./Functional components/DishDetail/DishDetailRoute
 import Contact from "./Pages/Contact";
 import About from "./Pages/AboutUs";
 
+import { addComments } from '../redux/ActionCreators/Comments/ActionCreators';
 
 
 export const mapStateToProps = (state) => {
     return {dishes: state.dishes, comments: state.comments, promotions: state.promotions, leaders: state.leaders}
 };
+export const mapDispatchToProps = (dispatch) => ({
+   addComment : (dishId,rating,author,comment) => dispatch(addComments(dishId,rating,author,comment))
+});
+
+
 
 export  const Main = (props) =>   {
-console.log(props);
 const HomePage = () => {
             return (
                 <Home
@@ -38,7 +43,7 @@ const HomePage = () => {
                            promotion = {props.promotions.filter((promotionFeatured) => promotionFeatured.featured)[0]}
                            leaders = { props.promotions.filter((leadersFeatured) => leadersFeatured.featured)[0]
                     }/>
-                    <Route exact path={"/menu/:id"} component = { DishDetailRouter}/>
+                    <Route exact path={"/menu/:id"} component = { ({match}) => <DishDetailRouter match={match} addComment={props.addComment }/>} />
 
                     <Route exact path={"/menu"} component = { () =><Menu dishes={props.dishes}/>} />
                     <Route exact path={"/aboutUs"} component = { () =><About leaders={props.leaders} />} />
@@ -54,5 +59,5 @@ const HomePage = () => {
 
     }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
 

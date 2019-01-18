@@ -5,19 +5,19 @@ import {COMMENTS} from "../../../shared/Comments";
 
 
 
- const DishDetailRouter= ({match}) => {
-         return (
-             renderMatch(match.params)
+ const DishDetailRouter= ({match, addComment}) => {
+     return (
+
+             renderMatch({...match.params, addComment})
 
          )
      };
 
-const renderMatch = ({id}) => {
-    console.log("aa" , id);
+const renderMatch = ({id,addComment}) => {
     if (id == null) {
         return <div/>
     }
-    return <DishDetail dish={DISHES.filter((selectedDish) =>selectedDish.id === parseInt(id))[0]} comments = {COMMENTS.filter((comment) => comment.dishId === parseInt(id))}/>
+    return <DishDetail dish={DISHES.filter((selectedDish) =>selectedDish.id === parseInt(id))[0]} comments = {COMMENTS.filter((comment) => comment.dishId === parseInt(id))} addComment={addComment}/>
 };
 
 

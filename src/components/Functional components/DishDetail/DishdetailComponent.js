@@ -9,7 +9,7 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Control, Errors, LocalForm} from "react-redux-form";
 
 const DishDetail = (props) => {
-    console.log(props);
+    console.log("asd" ,props);
     if (props.dish == null) {
         return <div/>
     }
@@ -31,7 +31,7 @@ const DishDetail = (props) => {
                     <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments}  addComment={props.addComment} dishId={props.dish.id} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
 
@@ -63,7 +63,7 @@ const RenderDish = ({dish}) => {
     return <div/>
 };
 
-const RenderComments = ({comments}) => {
+const RenderComments = ({comments , addComment , dishId}) => {
     if (comments == null) {
         return <div/>
     }
@@ -83,7 +83,7 @@ const RenderComments = ({comments}) => {
                 })
                 }
             </ul>
-            <CommentForm isOpen={false}/>
+            <CommentForm isOpen={false} addComment={addComment} dishId={dishId}/>
 
         </div>
     );
@@ -93,7 +93,6 @@ const RenderComments = ({comments}) => {
 
 
 export class CommentForm extends Component {
-
     constructor (props)
     {
         super(props);
@@ -118,7 +117,7 @@ export class CommentForm extends Component {
                     </button>
                     <Modal isOpen={this.state.isOpen}>
                         <ModalHeader toggle={this.toggleModal}>Submit Content</ModalHeader>
-                        <RenderForm/>
+                        <RenderForm addComment={this.props.addComment} dishId={this.props.dishId}/>
                         <ModalBody>
 
                         </ModalBody>
@@ -130,14 +129,13 @@ export class CommentForm extends Component {
 }
 
 
-const RenderForm = () => {
+const RenderForm = ({dishId,addComment}) => {
     const required = (val) => val && val.length;
     const maxLength = (len) => (val) => !(val) || (val.length <= len);
     const minLength = (len) => (val) => val && (val.length >= len);
     const minValue = (len) => (val) => val && (val.length >= len);
-    const handleSubmit = (values) => {
+    const handleSubmit = (values) =>   addComment(dishId,values.rating,values.author,values.comment);
 
-    }
     return(
             <>
                 <div className="col-12 col-md-9">
@@ -206,10 +204,11 @@ const RenderForm = () => {
                                 />
                             </Col>
                         </Row>
+                        <Button className="bg-primary">
+                            Submit
+                        </Button>
                     </LocalForm>
-                    <Button className="bg-primary">
-                        Submit
-                    </Button>
+
                 </div>
             </>
 
