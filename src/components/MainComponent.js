@@ -6,7 +6,7 @@ import Menu from "./Functional components/MenuComponent";
 import Footer from "./Footer/Footer";
 import {Switch, Route, Redirect,  withRouter} from "react-router-dom";
 import Home from "./Home/Home";
-import DishDetailRouter from "./Functional components/DishDetail/DishDetailRouter";
+import {RenderDish} from "./Functional components/DishDetail/DishDetailRouter";
 import Contact from "./Pages/Contact";
 import About from "./Pages/AboutUs";
 
@@ -32,6 +32,13 @@ const HomePage = () => {
                 />  ) };
 
 
+    const DishDetailRouter= ({match, addComment}) => {
+        return (
+
+                 <RenderDish  dish={ props.dishes.filter((dish , key) =>  dish.id === parseInt(match.params.id) )[0]} addComment={addComment}
+                                   comments={props.comments.filter((comments ) => comments.dishId === parseInt(match.params.id))}/>
+        )};
+
 
 
     return (
@@ -43,7 +50,7 @@ const HomePage = () => {
                            promotion = {props.promotions.filter((promotionFeatured) => promotionFeatured.featured)[0]}
                            leaders = { props.promotions.filter((leadersFeatured) => leadersFeatured.featured)[0]
                     }/>
-                    <Route exact path={"/menu/:id"} component = { ({match}) => <DishDetailRouter match={match} addComment={props.addComment }/>} />
+                    <Route exact path={"/menu/:id"} component = { ({match}) => <DishDetailRouter match={match}  addComment={props.addComment }/>} />
 
                     <Route exact path={"/menu"} component = { () =><Menu dishes={props.dishes}/>} />
                     <Route exact path={"/aboutUs"} component = { () =><About leaders={props.leaders} />} />
@@ -57,7 +64,8 @@ const HomePage = () => {
             </div>
         );
 
-    }
+       };
+
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
 

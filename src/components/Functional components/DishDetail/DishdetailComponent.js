@@ -9,10 +9,7 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Control, Errors, LocalForm} from "react-redux-form";
 
 const DishDetail = (props) => {
-    console.log("asd" ,props);
-    if (props.dish == null) {
-        return <div/>
-    }
+
     return (
 
         <div className="container">
@@ -45,7 +42,7 @@ const DishDetail = (props) => {
 
 const RenderDish = ({dish}) => {
     console.log(dish);
-    if (dish != null) {
+
         return (
             <div>
                 <Card>
@@ -59,14 +56,11 @@ const RenderDish = ({dish}) => {
             </div>
         );
 
-    }
-    return <div/>
+
 };
 
 const RenderComments = ({comments , addComment , dishId}) => {
-    if (comments == null) {
-        return <div/>
-    }
+
     console.log(comments);
     return (
         <div>
