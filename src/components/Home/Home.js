@@ -1,7 +1,11 @@
 import React from 'react'
 import {Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle} from "reactstrap";
+import {Loading} from "../Functional components/LoadingComponent";
 const HomeComponent = (props) => {
-    console.log(props);
+    if(!props.dish)
+    {
+        return <Loading/>
+    }
     return(
         <div className="container">
             <div className="row align-items-start">
