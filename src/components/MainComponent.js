@@ -10,19 +10,21 @@ import {RenderDish} from "./Functional components/DishDetail/DishDetailRouter";
 import Contact from "./Pages/Contact";
 import About from "./Pages/AboutUs";
 
-import { addComments } from '../redux/ActionCreators/Comments/ActionCreators';
+import { addComments , removeComment} from '../redux/ActionCreators/Comments/ActionCreators';
 
 
 export const mapStateToProps = (state) => {
     return {dishes: state.dishes, comments: state.comments, promotions: state.promotions, leaders: state.leaders}
 };
 export const mapDispatchToProps = (dispatch) => ({
-   addComment : (dishId,rating,author,comment) => dispatch(addComments(dishId,rating,author,comment))
+   addComment : (dishId,rating,author,comment) => dispatch(addComments(dishId,rating,author,comment)),
+   removeComment : (comment) => dispatch(removeComment(comment))
 });
 
 
 
 export  const Main = (props) =>   {
+    console.log(props);
 const HomePage = () => {
             return (
                 <Home
@@ -32,15 +34,19 @@ const HomePage = () => {
                 />  ) };
 
 
-    const DishDetailRouter= ({match, addComment}) => {
+    const DishDetailRouter= ({match, actions}) => {
+
         return (
 
-                 <RenderDish  dish={ props.dishes.filter((dish , key) =>  dish.id === parseInt(match.params.id) )[0]} addComment={addComment}
+                 <RenderDish  dish={ props.dishes.filter((dish , key) =>  dish.id === parseInt(match.params.id) )[0]} actions={actions}
                                    comments={props.comments.filter((comments ) => comments.dishId === parseInt(match.params.id))}/>
         )};
 
 
-
+    const actions = {
+        addComment : props.addComment,
+        removeComment: props.removeComment
+    }
     return (
             <div>
                 <Header/>
@@ -50,7 +56,7 @@ const HomePage = () => {
                            promotion = {props.promotions.filter((promotionFeatured) => promotionFeatured.featured)[0]}
                            leaders = { props.promotions.filter((leadersFeatured) => leadersFeatured.featured)[0]
                     }/>
-                    <Route exact path={"/menu/:id"} component = { ({match}) => <DishDetailRouter match={match}  addComment={props.addComment }/>} />
+                    <Route exact path={"/menu/:id"} component = { ({match}) => <DishDetailRouter match={match}   actions={ actions }/>} />
 
                     <Route exact path={"/menu"} component = { () =><Menu dishes={props.dishes}/>} />
                     <Route exact path={"/aboutUs"} component = { () =><About leaders={props.leaders} />} />

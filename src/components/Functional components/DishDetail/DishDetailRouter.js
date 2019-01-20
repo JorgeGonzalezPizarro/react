@@ -1,12 +1,13 @@
-import React , {Component} from 'react'
+import React  from 'react'
 import DishDetail from "./DishdetailComponent";
 
 
 
 
 
-export const RenderDish = ({key,dish,comments,addComment}) => {
-    return <DishDetail dish={dish} comments = {comments} addComment={addComment}/>
+export const RenderDish = ({dish,comments,actions}) => {
+
+    return <DishDetail dish={dish} comments = {comments} actions={actions} />
 };
 
 

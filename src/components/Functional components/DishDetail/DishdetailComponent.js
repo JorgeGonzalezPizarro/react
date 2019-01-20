@@ -5,11 +5,11 @@ import {
 } from 'reactstrap';
 import Link from "react-router-dom/es/Link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPencilAlt , faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Control, Errors, LocalForm} from "react-redux-form";
 
 const DishDetail = (props) => {
-
+        console.log(props);
     return (
 
         <div className="container">
@@ -28,7 +28,7 @@ const DishDetail = (props) => {
                     <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments}  addComment={props.addComment} dishId={props.dish.id} />
+                    <RenderComments comments={props.comments}  actions={props.actions} dishId={props.dish.id} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
 
@@ -59,25 +59,34 @@ const RenderDish = ({dish}) => {
 
 };
 
-const RenderComments = ({comments , addComment , dishId}) => {
-
-    console.log(comments);
+const RenderComments = ({comments ,actions , dishId }) => {
+    const handleClick = (comment , e) =>
+    {
+        e.preventDefault();
+        return actions.removeComment(comment.id)
+    }
     return (
         <div>
             <ul className="list-unstyled">
                 <h4>Comments</h4>
                 {comments.map((comment, key) => {
                     return (
+                        <div id={key}>
                         <li key={key}>
                             <p>{comment.comment}</p>
-                            <p>--{comment.author}</p>
+                            <span>--{comment.author}</span>
+                            <button onClick={handleClick.bind(this,comment)}><FontAwesomeIcon icon={faTrash}/></button>
+
                         </li>
+
+                        </div>
+
 
                     );
                 })
                 }
             </ul>
-            <CommentForm isOpen={false} addComment={addComment} dishId={dishId}/>
+            <CommentForm isOpen={false} addComment={actions.addComments} dishId={dishId}/>
 
         </div>
     );
@@ -127,14 +136,13 @@ const RenderForm = ({dishId,addComment}) => {
     const required = (val) => val && val.length;
     const maxLength = (len) => (val) => !(val) || (val.length <= len);
     const minLength = (len) => (val) => val && (val.length >= len);
-    const minValue = (len) => (val) => val && (val.length >= len);
     const handleSubmit = (values) =>   addComment(dishId,values.rating,values.author,values.comment);
 
     return(
             <>
                 <div className="col-12 col-md-9">
 
-                    <LocalForm onSubmit={(values) => handleSubmit(values)}>
+                    <LocalForm onSubmit={(values) => handleSubmit.bind(this,values)}>
                         <Row className="form-group">
                             <Label htmlFor="comment" md={9}>Rating</Label>
                             <Col md={9}>
@@ -158,7 +166,7 @@ const RenderForm = ({dishId,addComment}) => {
                         <Row className="form-group">
                             <Label htmlFor="comment" md={9}>Your Name</Label>
                             <Col md={9}>
-                                <Control.text model=".firstname" id="firstname" name="firstname"
+                                <Control.text model=".author" id="author" name="author"
                                               placeholder="First Name"
                                               className="form-control"
                                               validators={{
@@ -167,7 +175,7 @@ const RenderForm = ({dishId,addComment}) => {
                                 />
                                 <Errors
                                         className="text-danger"
-                                        model=".firstname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
