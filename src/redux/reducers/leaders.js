@@ -1,10 +1,23 @@
-import { LEADERS } from '../../shared/Leaders';
+import * as ActionTypes from "../ActionTypes/Leaders/Actions";
 
 
-export const Leaders = (state = LEADERS , action) => {
-
+ const initialState = {
+    isLoading: true,
+    leaders: [],
+    error: undefined
+};
+export const Leaders = (state = initialState, action) => {
     switch (action.type) {
-        default :
+        case ActionTypes.FETCH:
+            return {...state, ...action.payload};
+
+        case ActionTypes.LOADING:
+            return {...state,...action.payload}
+
+        case ActionTypes.FAILED:
+            return {...state,...action.payload};
+
+        default:
             return state;
     }
 };

@@ -12,16 +12,25 @@ import About from "./Pages/AboutUs";
 
 import {addComments, removeComment} from '../redux/ActionCreators/Comments/ActionCreators';
 import {fetchDishes} from '../redux/ActionCreators/Dishes/ActionCreators';
+import {fetchFeedback} from '../redux/ActionCreators/Feedback/ActionCreators';
+import {fetchLeaders} from '../redux/ActionCreators/Leaders/ActionCreators';
+import {postFeedback} from '../redux/ActionCreators/Feedback/ActionCreators';
 
 
 export const mapStateToProps = (state) => {
-    return {dishes: state.dishes, comments: state.comments, promotions: state.promotions, leaders: state.leaders}
+    return {feedback:state.feedback,dishes: state.dishes, comments: state.comments, promotions: state.promotions, leaders: state.leaders}
 };
 
 
 export const mapDispatchToProps = (dispatch) => ({
     addComment: (dishId, rating, author, comment) => dispatch(addComments(dishId, rating, author, comment)),
     fetchDishes: () => {dispatch(fetchDishes())
+    },
+    fetchFeedback: () => {dispatch(fetchFeedback())
+    },
+    postFeedback: (feedback) => {dispatch(postFeedback(feedback))
+    },
+    fetchLeaders: () => {dispatch(fetchLeaders())
     },
     removeComment: (comment) => dispatch(removeComment(comment))
 });
@@ -32,20 +41,24 @@ export class Main extends Component {
         super(props);
         this.state= {
             dishes: props.dishes,
+            feedback: props.feedback,
+            leaders: props.leaders,
             ...props
         }
     }
 
     componentDidMount() {
-        console.log("a" , this.props);
-        return this.props.fetchDishes();
+        this.props.fetchLeaders();
+        this.props.fetchDishes();
+        this.props.fetchFeedback();
     }
 
 
     render() {
         const actions = {
             addComment: this.props.addComment,
-            removeComment: this.props.removeComment
+            removeComment: this.props.removeComment,
+            postFeedback: this.props.postFeedback
         }
         console.log("a2" , this.props);
 
@@ -54,7 +67,7 @@ export class Main extends Component {
                 <Home
                     dish={this.props.dishes.dishes.filter((dishFeatured) =>  dishFeatured.featured)[0]}
                     promotion={this.props.promotions.filter((promotionFeatured) => promotionFeatured.featured)[0]}
-                    leaders={this.props.leaders.filter((leadersFeatured) => leadersFeatured.featured)[0]}
+                    leaders={this.props.leaders.leaders.filter((leadersFeatured) => leadersFeatured.featured)[0]}
                 />)
         };
 
@@ -84,7 +97,7 @@ export class Main extends Component {
 
                     <Route exact path={"/menu"} component={() => <Menu dishes={this.props.dishes.dishes}/>}/>
                     <Route exact path={"/aboutUs"} component={() => <About leaders={this.props.leaders}/>}/>
-                    <Route exact path={'/contactus'} component={Contact}/>} />
+                    <Route exact path={'/contactus'} component={ () =><Contact feedback={this.props.feedback} postFeedback={actions.postFeedback}/>} />
 
                     <Redirect to={"/home"}/>
                 </Switch>

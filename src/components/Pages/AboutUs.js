@@ -3,10 +3,14 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 import {LeaderRouter} from "../Functional components/Leaders/LeaderRouter";
 import LeaderComponent from "../Functional components/Leaders/LeaderRouter";
+import {Loading} from "../Functional components/LoadingComponent";
 
 function About(props) {
-
-    const leaders = props.leaders.map((leader) => {
+   if(props.leaders.isLoading===true)
+   {
+       return <Loading/>;
+   }
+    const leaders = props.leaders.leaders.map((leader) => {
         return (
             <p>Leader {leader.name}</p>
         );
@@ -67,7 +71,7 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <RenderLeader leaders={props.leaders} />
+                    <RenderLeader leaders={props.leaders.leaders} />
                 </div>
             </div>
         </div>

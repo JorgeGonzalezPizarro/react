@@ -5,18 +5,26 @@ import {Link} from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label,Modal, ModalHeader, ModalBody, } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import {Loading} from "../Functional components/LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
-const handleSubmit = (values) => {
-    return alert(JSON.stringify(values));
-};
-export const Contact = () =>  {
 
+export const Contact = ({feedback,postFeedback}) => {
 
+    if (feedback.isLoading){
+        return <Loading/>
+}
+    if (feedback.lastFeedback !=undefined){
+         alert(`${JSON.stringify(feedback.lastFeedback) } `);
+    }
+    const handleSubmit = (values) => {
+        alert(JSON.stringify(values));
+        return postFeedback(values);
+    };
 
         return (
                 <div className="container">

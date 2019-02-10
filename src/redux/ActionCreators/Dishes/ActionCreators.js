@@ -1,5 +1,4 @@
 import * as ActionTypes from '../../ActionTypes/Dishes/Actions'
-import {DISHES} from '../../../shared/dishes'
 import {initialState} from "../../reducers/dishes";
 import axios from 'axios';
 

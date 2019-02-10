@@ -2,6 +2,7 @@ import React from 'react'
 import {Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle} from "reactstrap";
 import {Loading} from "../Functional components/LoadingComponent";
 const HomeComponent = (props) => {
+    console.log(`from home component ${JSON.stringify(props)}`);
     if(!props.dish)
     {
         return <Loading/>
